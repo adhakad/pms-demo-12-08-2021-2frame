@@ -29,7 +29,7 @@ const peers = {};
 const newVideoGrid = document.getElementById("newVideoGrid");
 const hostVideoGrid = document.getElementById("hostVideoGrid");
 const joinVideoGrid = document.getElementById("joinVideoGrid");
-const conVideoGrid = document.getElementById("conVideoGrid");
+const conNewVideoGrid = document.getElementById("conNewVideoGrid");
 const videoText = document.createElement("div");
 const videoItem = document.createElement("div");
 videoItem.classList.add("video__item");
@@ -38,11 +38,11 @@ videoItem.append(videoText);
 
 
 
-const videoText1 = document.createElement("div");
-const videoItem1 = document.createElement("div");
-videoItem1.classList.add("videoitem");
-videoText1.classList.add("videoname");
-videoItem1.append(videoText1);
+const conNewVideo_Text = document.createElement("div");
+const conNewVideo_Item = document.createElement("div");
+conNewVideo_Item.classList.add("conNewVideo_item");
+conNewVideo_Text.classList.add("conNewVideo_name");
+conNewVideo_Item.append(conNewVideo_Text);
 
 
 const mediaConfig = {
@@ -111,7 +111,6 @@ socket.on("user-disconnected", ({ id }) => {
 function connectToNewUser({ id, name }, stream) {
   const call = peer.call(id, stream, { metadata: { name: student_name } });
   const conNewVideo = document.createElement("video");
-  conNewVideo.controls = true;
       call.on("stream", (userStream) => {
         conNewVideoStream(conNewVideo, userStream, id, name);
       });
@@ -132,7 +131,6 @@ if(TEACHER_ID){
     clonedItem.children[0].innerHTML = name;
     clonedItem.append(newVideo);
     newVideoGrid.append(clonedItem);
-    // weird error cleanup
     const nodes = document.querySelectorAll(".video__item") || [];
     nodes.forEach((node) => {
       if (node.children && node.children.length < 2) {
@@ -151,7 +149,6 @@ if(TEACHER_ID){
     clonedItem.children[0].innerHTML = name;
     clonedItem.append(hostVideo);
     hostVideoGrid.append(clonedItem);
-    // weird error cleanup
     const nodes = document.querySelectorAll(".video__item") || [];
     nodes.forEach((node) => {
       if (node.children && node.children.length < 2) {
@@ -169,8 +166,7 @@ function joinHostVideoStream(joinVideo, stream,id, name) {
   const clonedItem = videoItem.cloneNode(true);
   clonedItem.children[0].innerHTML = name;
   clonedItem.append(joinVideo);
-  joinVideoGrid.append(clonedItem);
-  // weird error cleanup
+  joinVideoGrid.append(clonedItem);// weird error cleanup
   const nodes = document.querySelectorAll(".video__item") || [];
   nodes.forEach((node) => {
     if (node.children && node.children.length < 2) {
@@ -185,12 +181,11 @@ function conNewVideoStream(conNewVideo, stream,id, name) {
     conNewVideo.play();
   });
   conNewVideo.setAttribute("id", id);
-  const clonedItem1 = videoItem1.cloneNode(true);
-  clonedItem1.children[0].innerHTML = name;
-  clonedItem1.append(conNewVideo);
-  conVideoGrid.append(clonedItem1);
-  // weird error cleanup
-  const nodes = document.querySelectorAll(".videoitem") || [];
+  const clonedItem = conNewVideo_Item.cloneNode(true);
+  clonedItem.children[0].innerHTML = name;
+  clonedItem.append(conNewVideo);
+  conNewVideoGrid.append(clonedItem);
+  const nodes = document.querySelectorAll(".conNewVideo_item") || [];
   nodes.forEach((node) => {
     if (node.children && node.children.length < 2) {
       node.remove();
